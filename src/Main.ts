@@ -30,7 +30,6 @@
 class Main extends egret.DisplayObjectContainer {
 
 
-
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -83,5 +82,10 @@ class Main extends egret.DisplayObjectContainer {
      */
     private createGameScene() {
 
+        let container: egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
+        this.addChild(container);
+
+        SceneController.instance.setStage(container);
+        SceneController.initGame();
     }
 }
