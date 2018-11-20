@@ -1,0 +1,15 @@
+{
+	"groups": [
+		{
+			"name": "preload",
+			"keys": "game_bg_jpg"
+		}
+	],
+	"resources": [
+		{
+			"name": "game_bg_jpg",
+			"type": "image",
+			"url": "assets/img/game_bg.jpg"
+		}
+	]
+}
