@@ -3,4 +3,4 @@
 
 # egret wings 
 .wing/*
-.bin-debug
+.bin-debug/*
