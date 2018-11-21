@@ -1,16 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "game_bg_jpg,aircraft_01_png,craft_name_01_png",
+			"keys": "aircraft_01_png,craft_name_01_png,game_bg_jpg",
 			"name": "preload"
 		}
 	],
 	"resources": [
-		{
-			"url": "assets/img/game_bg.jpg",
-			"type": "image",
-			"name": "game_bg_jpg"
-		},
 		{
 			"name": "aircraft_01_png",
 			"type": "image",
@@ -20,6 +15,11 @@
 			"name": "craft_name_01_png",
 			"type": "image",
 			"url": "assets/img/craft_name_01.png"
+		},
+		{
+			"name": "game_bg_jpg",
+			"type": "image",
+			"url": "assets/img/game_bg.jpg"
 		}
 	]
 }

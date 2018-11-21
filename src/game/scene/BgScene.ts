@@ -1,8 +1,6 @@
-import tr = egret.sys.tr;
-
 class BgScene extends BaseScene {
 
-    private isRunning: boolean = false;
+    public isRunning: boolean = false;
     private bg: egret.Bitmap;
     private speed: number = 10;
     private $height: number = Utils.getStageHeight();
@@ -15,28 +13,24 @@ class BgScene extends BaseScene {
         this.bg.y = -this.$height;
         this.bg.cacheAsBitmap = true;
         this.addChild(this.bg);
-        this.running();
     }
 
     public running(): void {
-        this.bg.addEventListener(egret.Event.ENTER_FRAME, function () {
+        this.bg.y += this.speed;
 
-            if (this.isRunning) {
-                this.bg.y += this.speed;
-
-                if (this.bg.y > 0) {
-                    this.bg.y = -this.$height;
-                }
-            }
-        }, this);
+        if (this.bg.y > 0) {
+            this.bg.y = -this.$height;
+        }
     }
 
     public run(): void {
         this.isRunning = true;
+        this.bg.addEventListener(egret.Event.ENTER_FRAME, this.running, this);
     }
 
     public pause(): void {
         this.isRunning = false;
+        this.bg.removeEventListener(egret.Event.ENTER_FRAME, this.running, this);
     }
 
     public getSpeed(): number {

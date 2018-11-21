@@ -17,6 +17,7 @@
 		"bin-debug/game/GameData.js",
 		"bin-debug/game/SceneController.js",
 		"bin-debug/game/bean/AirCraft.js",
+		"bin-debug/game/bean/Bullet.js",
 		"bin-debug/game/scene/BgScene.js"
 	]
 }
