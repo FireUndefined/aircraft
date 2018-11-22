@@ -65,10 +65,10 @@ class GameController extends egret.DisplayObjectContainer {
         this._lastTime = nowTime;
         let speedOffset: number = 60 / fps;
 
+        /** 回收player的子弹*/
         let i: number = 0;
         let bullet: Bullet;
         let playerBulletNum: number = this.playerBullet.length;
-
         for (; i < playerBulletNum; i++) {
             bullet = this.playerBullet[i];
             if (bullet.y < -bullet.height) {
@@ -90,8 +90,8 @@ class GameController extends egret.DisplayObjectContainer {
             let i: number = 0;
             for (; i < 2; i++) {
                 bullet = GameData.BulletData.produce(this.player.bulletType);
-                bullet.x = i == 0 ? (this.player.x + 10) : (this.player.x + this.width - 10);
-                bullet.y = this.player.y + 10;
+                bullet.x = i == 0 ? (this.player.x + 10) : (this.player.x + this.player.width - bullet.width - 10);
+                bullet.y = this.player.y - 30;
                 this.addChild(bullet);
                 this.playerBullet.push(bullet);
             }
