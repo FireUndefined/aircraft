@@ -55,8 +55,34 @@ class GameController extends egret.DisplayObjectContainer {
         this.addChild(this.player);
         this.player.addEventListener('createBullet', this.createBulletHandler, this);
         this.player.fire();
+
+        this.addEventListener(egret.Event.ENTER_FRAME, this.gameViewUpdate, this);
     }
 
+    private gameViewUpdate(evt: egret.Event): void {
+        let nowTime: number = egret.getTimer();
+        let fps: number = 1000 / (nowTime - this._lastTime);
+        this._lastTime = nowTime;
+        let speedOffset: number = 60 / fps;
+
+        let i: number = 0;
+        let bullet: Bullet;
+        let playerBulletNum: number = this.playerBullet.length;
+
+        for (; i < playerBulletNum; i++) {
+            bullet = this.playerBullet[i];
+            if (bullet.y < -bullet.height) {
+                this.removeChild(bullet);
+                GameData.BulletData.reclaim(bullet);
+                this.playerBullet.splice(i, 1);
+                i--;
+                playerBulletNum--;
+            }
+            bullet.y -= 12 * speedOffset
+        }
+    }
+
+    /** 创建子弹*/
     private createBulletHandler(evt: egret.Event): void {
         let bullet: Bullet;
 

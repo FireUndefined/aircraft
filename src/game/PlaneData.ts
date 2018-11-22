@@ -16,7 +16,7 @@ namespace GameData {
         public static candidatePlane: Array<PlaneInfo> = [
             {
                 planeName: 'PitLord',
-                bulletType: 'b1',
+                bulletType: 'b1_png',
                 ultimateSkill: '',
                 normalSkill: '',
                 healthPoint: 10,
