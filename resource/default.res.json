@@ -1,18 +1,18 @@
 {
 	"groups": [
 		{
-			"keys": "aircraft_01_png,craft_name_01_png,game_bg_jpg",
+			"keys": "PitLord,PitLord_name,game_bg_jpg,red_enemy_01_png,silver_enemy_02_png,blue_enemy_01_png,gold_enemy_01_png,red_enemy_02_png,silver_enemy_03_png,blue_enemy_02_png,gold_enemy_02_png,silver_enemy_01_png,b1_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "aircraft_01_png",
+			"name": "PitLord",
 			"type": "image",
 			"url": "assets/img/aircraft_01.png"
 		},
 		{
-			"name": "craft_name_01_png",
+			"name": "PitLord_name",
 			"type": "image",
 			"url": "assets/img/craft_name_01.png"
 		},
@@ -20,6 +20,56 @@
 			"name": "game_bg_jpg",
 			"type": "image",
 			"url": "assets/img/game_bg.jpg"
+		},
+		{
+			"name": "red_enemy_01_png",
+			"type": "image",
+			"url": "assets/img/red_enemy_01.png"
+		},
+		{
+			"name": "silver_enemy_02_png",
+			"type": "image",
+			"url": "assets/img/silver_enemy_02.png"
+		},
+		{
+			"name": "blue_enemy_01_png",
+			"type": "image",
+			"url": "assets/img/blue_enemy_01.png"
+		},
+		{
+			"name": "gold_enemy_01_png",
+			"type": "image",
+			"url": "assets/img/gold_enemy_01.png"
+		},
+		{
+			"name": "red_enemy_02_png",
+			"type": "image",
+			"url": "assets/img/red_enemy_02.png"
+		},
+		{
+			"name": "silver_enemy_03_png",
+			"type": "image",
+			"url": "assets/img/silver_enemy_03.png"
+		},
+		{
+			"name": "blue_enemy_02_png",
+			"type": "image",
+			"url": "assets/img/blue_enemy_02.png"
+		},
+		{
+			"name": "gold_enemy_02_png",
+			"type": "image",
+			"url": "assets/img/gold_enemy_02.png"
+		},
+		{
+			"name": "silver_enemy_01_png",
+			"type": "image",
+			"url": "assets/img/silver_enemy_01.png"
+		},
+		{
+			"name": "b1_png",
+			"type": "image",
+			"url": "assets/img/b1.png"
 		}
 	]
 }

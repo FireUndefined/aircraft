@@ -9,15 +9,14 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
-		"bin-debug/game/scene/BaseScene.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
-		"bin-debug/common/Utils.js",
-		"bin-debug/game/GameData.js",
-		"bin-debug/game/SceneController.js",
-		"bin-debug/game/bean/AirCraft.js",
-		"bin-debug/game/bean/Bullet.js",
-		"bin-debug/game/scene/BgScene.js"
+		"bin-debug/common/GameUtils.js",
+		"bin-debug/game/BulletData.js",
+		"bin-debug/game/GameController.js",
+		"bin-debug/game/PlaneData.js",
+		"bin-debug/game/bean/BgMap.js",
+		"bin-debug/game/bean/Plane.js"
 	]
 }
