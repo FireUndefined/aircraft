@@ -8,17 +8,20 @@ class Plane extends egret.DisplayObjectContainer {
     private fireTicker: egret.Timer;
 
     /** 生命值*/
-    private healthPoint: number = 10;
+    public healthPoint: number = 10;
 
     /** 飞机命名*/
-    private planeName: string;
+    public planeName: string;
 
     /** 飞机技能*/
-    private normalSkill: string;
-    private ultimateSkill: string;
+    public normalSkill: string;
+    public ultimateSkill: string;
 
     /** 飞机攻击力*/
-    private attack: number;
+    public attack: number;
+
+    /** 飞机子弹类型*/
+    public bulletType: string;
 
     public constructor(planeInfo: PlaneInfo) {
         super();
@@ -27,14 +30,23 @@ class Plane extends egret.DisplayObjectContainer {
         this.planeBmp = GameUtils.createBitmapByName(planeInfo.planeName);
         this.addChild(this.planeBmp);
 
-        this.fireDelay = planeInfo.fireDelay;
-        this.fireTicker = new egret.Timer(planeInfo.fireDelay);
-        this.fireTicker.addEventListener(egret.TimerEvent.TIMER, this.createBullet, this);
-
         this.healthPoint = planeInfo.healthPoint;
         this.attack = planeInfo.attack;
         this.normalSkill = planeInfo.normalSkill;
         this.ultimateSkill = planeInfo.ultimateSkill;
+        this.bulletType = planeInfo.bulletType;
+
+        this.fireDelay = planeInfo.fireDelay;
+        this.fireTicker = new egret.Timer(planeInfo.fireDelay);
+        this.fireTicker.addEventListener(egret.TimerEvent.TIMER, this.createBullet, this);
+    }
+
+    public fire(): void {
+        this.fireTicker.start();
+    }
+
+    public cease(): void {
+        this.fireTicker.stop();
     }
 
     private createBullet(evt: egret.TimerEvent): void {

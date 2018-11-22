@@ -17,6 +17,7 @@
 		"bin-debug/game/GameController.js",
 		"bin-debug/game/PlaneData.js",
 		"bin-debug/game/bean/BgMap.js",
+		"bin-debug/game/bean/Bullet.js",
 		"bin-debug/game/bean/Plane.js"
 	]
 }

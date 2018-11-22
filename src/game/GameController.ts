@@ -13,10 +13,13 @@ class GameController extends egret.DisplayObjectContainer {
 
     /** player*/
     private player: Plane;
+    private playerBullet: Bullet[] = [];
+
+    private _lastTime: number;
 
     public constructor() {
         super();
-
+        this._lastTime = egret.getTimer();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
@@ -50,8 +53,26 @@ class GameController extends egret.DisplayObjectContainer {
         this.player.x = (this.stageW - this.player.width) / 2;
         this.player.y = this.stageH * 0.85;
         this.addChild(this.player);
+        this.player.addEventListener('createBullet', this.createBulletHandler, this);
+        this.player.fire();
     }
 
+    private createBulletHandler(evt: egret.Event): void {
+        let bullet: Bullet;
+
+        if (evt.target == this.player) {
+            let i: number = 0;
+            for (; i < 2; i++) {
+                bullet = GameData.BulletData.produce(this.player.bulletType);
+                bullet.x = i == 0 ? (this.player.x + 10) : (this.player.x + this.width - 10);
+                bullet.y = this.player.y + 10;
+                this.addChild(bullet);
+                this.playerBullet.push(bullet);
+            }
+        }
+    }
+
+    /** 飞机移动*/
     private touchStartHandler(evt: egret.TouchEvent): void {
         this.offsetX = evt.stageX - this.player.x;
         this.offsetY = evt.stageY - this.player.y;
