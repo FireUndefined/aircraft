@@ -46,7 +46,13 @@ namespace GameData {
         public static reclaim(bullet: GameData.BulletsData): void {
             let textureName: string = bullet.textureName;
 
-            
+            if (GameData.BulletsData.cacheDict[textureName] == null){
+                GameData.BulletsData.cacheDict[textureName] = [];
+            }
+
+            let dict: GameData.BulletsData[] = GameData.BulletsData.cacheDict[textureName];
+
+            if (dict.indexOf(bullet) == -1) dict.push(bullet);
         }
     }
 }
