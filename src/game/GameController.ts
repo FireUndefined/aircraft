@@ -15,6 +15,10 @@ class GameController extends egret.DisplayObjectContainer {
     private player: Plane;
     private playerBullet: Bullet[] = [];
 
+    /** 敌机*/
+    private enemies: Plane[] = [];
+    private enemiesBullet: Bullet[] = [];
+
     private _lastTime: number;
 
     public constructor() {
@@ -57,6 +61,8 @@ class GameController extends egret.DisplayObjectContainer {
         this.player.fire();
 
         this.addEventListener(egret.Event.ENTER_FRAME, this.gameViewUpdate, this);
+
+        this.createEnemyPlane();
     }
 
     private gameViewUpdate(evt: egret.Event): void {
@@ -80,6 +86,38 @@ class GameController extends egret.DisplayObjectContainer {
             }
             bullet.y -= 12 * speedOffset
         }
+
+        //回收飞机，没错，就是这么豪
+        let theEnemy: Plane;
+        let theEnemyLen: number = this.enemies.length;
+        for (i = 0; i < theEnemyLen; i++) {
+            theEnemy = this.enemies[i];
+            if (theEnemy.y > this.stageH) {
+                this.removeChild(theEnemy);
+                GameData.PlaneData.reclaim(theEnemy);
+                theEnemy.removeEventListener("createBullet", this.createBulletHandler, this);
+                theEnemy.cease();
+                this.enemies.splice(i, 1);
+                i--;
+                theEnemyLen--;
+            }
+            theEnemy.y += 4 * speedOffset;
+        }
+
+        //敌人子弹运动
+        var enemyBulletsCount: number = this.enemiesBullet.length;
+        for (i = 0; i < enemyBulletsCount; i++) {
+            bullet = this.enemiesBullet[i];
+            if (bullet.y > this.stage.stageHeight) {
+                this.removeChild(bullet);
+                GameData.BulletData.reclaim(bullet);
+                this.enemiesBullet.splice(i, 1);
+                i--;
+                enemyBulletsCount--;//数组长度已经改变
+            }
+
+            bullet.y += 8 * speedOffset;
+        }
     }
 
     /** 创建子弹*/
@@ -90,12 +128,30 @@ class GameController extends egret.DisplayObjectContainer {
             let i: number = 0;
             for (; i < 2; i++) {
                 bullet = GameData.BulletData.produce(this.player.bulletType);
-                bullet.x = i == 0 ? (this.player.x + 10) : (this.player.x + this.player.width - bullet.width - 10);
+                bullet.x = i == 0 ? (this.player.x + 30) : (this.player.x + this.player.width - bullet.width - 30);
                 bullet.y = this.player.y - 30;
-                this.addChild(bullet);
+                this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
                 this.playerBullet.push(bullet);
             }
+        } else {
+            let theEnemy = evt.target;
+            bullet = GameData.BulletData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy].bulletType);
+            bullet.x = theEnemy.x + (theEnemy.width - bullet.width) / 2;
+            bullet.y = theEnemy.y + 20;
+            this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
+            this.enemiesBullet.push(bullet);
         }
+    }
+
+    private createEnemyPlane(): void {
+        let enemy: Plane = GameData.PlaneData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy]);
+        enemy.x = (this.stageW - enemy.width) * Math.random();
+        enemy.y = -enemy.height;
+        this.addChild(enemy);
+        enemy.addEventListener('createBullet', this.createBulletHandler, this);
+        enemy.fire();
+        this.addChildAt(enemy, this.numChildren - 1);
+        this.enemies.push(enemy);
     }
 
     /** 飞机移动*/
@@ -113,7 +169,7 @@ class GameController extends egret.DisplayObjectContainer {
         let planeX = evt.stageX - this.offsetX;
         let planeY = evt.stageY - this.offsetY;
 
-        this.player.x = Math.min(Math.max(0, planeX), this.stageW - this.player.width);
-        this.player.y = Math.min(Math.max(0, planeY), this.stageH - this.player.height);
+        this.player.x = Math.min(Math.max(0, planeX), (this.stageW - this.player.width));
+        this.player.y = Math.min(Math.max(0, planeY), (this.stageH - this.player.height));
     }
 }

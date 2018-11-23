@@ -4,3 +4,9 @@
 # egret wings 
 .wing/*
 bin-debug/*
+
+# media
+*.mp3
+*.Wav
+*.Ogg
+*.Vorbis
