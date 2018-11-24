@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "PitLord,PitLord_name,game_bg_jpg,red_enemy_01_png,silver_enemy_02_png,blue_enemy_01_png,gold_enemy_01_png,red_enemy_02_png,silver_enemy_03_png,blue_enemy_02_png,gold_enemy_02_png,silver_enemy_01_png,PitLordBullet,b2_png",
+			"keys": "PitLord,PitLord_name,game_bg_jpg,red_enemy_01_png,silver_enemy_02_png,blue_enemy_01_png,gold_enemy_01_png,red_enemy_02_png,silver_enemy_03_png,blue_enemy_02_png,gold_enemy_02_png,silver_enemy_01_png,PitLordBullet,b2_png,b22_png",
 			"name": "preload"
 		}
 	],
@@ -73,6 +73,11 @@
 		},
 		{
 			"name": "b2_png",
+			"type": "image",
+			"url": "assets/img/b2.png"
+		},
+		{
+			"name": "b22_png",
 			"type": "image",
 			"url": "assets/img/b2.png"
 		}
