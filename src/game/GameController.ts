@@ -65,6 +65,7 @@ class GameController extends egret.DisplayObjectContainer {
         this.createEnemyPlane();
     }
 
+    /** 更新视图*/
     private gameViewUpdate(evt: egret.Event): void {
         let nowTime: number = egret.getTimer();
         let fps: number = 1000 / (nowTime - this._lastTime);
@@ -120,6 +121,11 @@ class GameController extends egret.DisplayObjectContainer {
         }
     }
 
+    /** 碰撞检测*/
+    private gameHitTest(): void {
+
+    }
+
     /** 创建子弹*/
     private createBulletHandler(evt: egret.Event): void {
         let bullet: Bullet;
@@ -143,6 +149,7 @@ class GameController extends egret.DisplayObjectContainer {
         }
     }
 
+    /** 创建敌机*/
     private createEnemyPlane(): void {
         let enemy: Plane = GameData.PlaneData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy]);
         enemy.x = (this.stageW - enemy.width) * Math.random();
