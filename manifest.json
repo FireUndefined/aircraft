@@ -16,6 +16,7 @@
 		"bin-debug/game/BulletData.js",
 		"bin-debug/game/CommonData.js",
 		"bin-debug/Main.js",
+		"bin-debug/game/interfaceStore.js",
 		"bin-debug/game/PlaneData.js",
 		"bin-debug/game/bean/BgMap.js",
 		"bin-debug/game/bean/Boss.js",

@@ -58,7 +58,8 @@ class GameController extends egret.DisplayObjectContainer {
         this.player.y = this.stageH * 0.85;
         this.addChild(this.player);
         this.player.addEventListener('createBullet', this.createBulletHandler, this);
-        this.player.fire();
+        // this.player.fire();
+        console.log(this.player.getBoundsPixels(0, 0, 100, 100));
 
         this.addEventListener(egret.Event.ENTER_FRAME, this.gameViewUpdate, this);
 
@@ -102,7 +103,7 @@ class GameController extends egret.DisplayObjectContainer {
                 i--;
                 theEnemyLen--;
             }
-            theEnemy.y += 4 * speedOffset;
+            // theEnemy.y += 4 * speedOffset;
         }
 
         //敌人子弹运动
@@ -119,10 +120,25 @@ class GameController extends egret.DisplayObjectContainer {
 
             bullet.y += 8 * speedOffset;
         }
+
+        this.gameHitTest();
     }
 
     /** 碰撞检测*/
     private gameHitTest(): void {
+        let i: number,
+            j: number;
+
+        let bullet: Bullet;
+        let thePlayer: Plane;
+        let playerBulletCount: number = this.playerBullet.length;
+        let enemyPlaneCount: number = this.enemies.length;
+        let enemuBulletsCount: number = this.enemiesBullet.length;
+
+        //消失的飞机与子弹
+        let delBullets: Bullet[] = [];
+        let delPlanes: Plane[] = [];
+
 
     }
 
@@ -153,7 +169,8 @@ class GameController extends egret.DisplayObjectContainer {
     private createEnemyPlane(): void {
         let enemy: Plane = GameData.PlaneData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy]);
         enemy.x = (this.stageW - enemy.width) * Math.random();
-        enemy.y = -enemy.height;
+        enemy.y = 0;
+        // -enemy.height;
         this.addChild(enemy);
         enemy.addEventListener('createBullet', this.createBulletHandler, this);
         enemy.fire();

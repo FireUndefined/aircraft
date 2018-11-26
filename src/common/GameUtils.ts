@@ -1,3 +1,7 @@
+type rect = {
+    x: number, y: number, width: number, height: number
+}
+
 class GameUtils {
     /**
      * 获取舞台高度
@@ -20,5 +24,63 @@ class GameUtils {
         let result: egret.Bitmap = new egret.Bitmap();
         result.texture = RES.getRes(name);
         return result;
+    }
+
+    /**
+     * 像素级碰撞
+     */
+    public static pixelHitTest(object: Pixel, target: Pixel, pixelFlag?: boolean): boolean {
+
+        //获取两个对象宽高的一半
+        let objHalfW = object.width >> 1;
+        let objHalfH = object.height >> 1;
+        let targetHalfW = target.width >> 1;
+        let targetHalfH = target.height >> 1;
+
+        //获取两个对象的中心点
+        let objCenterX = object.x + objHalfW;
+        let objCenterY = object.y + objHalfH;
+        let targetCenterX = target.x + targetHalfW;
+        let targetCenterY = target.y + targetHalfH;
+
+        //中心点距离小于各自宽高一半之和为矩形碰撞
+        if (Math.abs(objCenterX - targetCenterX) <= (objHalfW + targetHalfW) &&
+            Math.abs(objCenterY - targetCenterY) <= (objHalfH + targetHalfH)) {
+            //如果pixel = true
+            if (pixelFlag) {
+                //获取相交区域
+                let intersect: rect = this.getIntersect(object, target);
+
+                //获取相交区域的像素
+                let boundPixel1 = object.getBoundsPixels(intersect.x, intersect.y, intersect.width, intersect.height);
+                let boundPixel2 = target.getBoundsPixels(intersect.x, intersect.y, intersect.width, intersect.height);
+
+                //遍历
+                let i: number = 0;
+                for (; i < boundPixel1.length; i += 4) {
+
+                }
+            }
+            return true
+        }
+
+        return false;
+    }
+
+    private static getIntersect(bound1: Pixel, bound2: Pixel): rect {
+
+        let intersect: rect = {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        };
+
+        intersect.x = Math.max(bound1.x, bound2.x);
+        intersect.y = Math.max(bound1.y, bound2.y);
+        intersect.width = Math.min((bound1.x + bound1.width) - intersect.x, (bound2.x + bound2.width) - intersect.x);
+        intersect.height = Math.min((bound1.y + bound1.height) - intersect.y, (bound2.y + bound2.height) - intersect.y);
+
+        return intersect;
     }
 }

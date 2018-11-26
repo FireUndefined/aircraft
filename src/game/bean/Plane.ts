@@ -1,4 +1,4 @@
-class Plane extends egret.DisplayObjectContainer {
+class Plane extends egret.DisplayObjectContainer implements Pixel {
 
     /** 飞机位图*/
     private planeBmp: egret.Bitmap;
@@ -39,6 +39,10 @@ class Plane extends egret.DisplayObjectContainer {
         this.fireDelay = planeInfo.fireDelay;
         this.fireTicker = new egret.Timer(planeInfo.fireDelay);
         this.fireTicker.addEventListener(egret.TimerEvent.TIMER, this.createBullet, this);
+    }
+
+    public getBoundsPixels(x: number, y: number, width: number, height: number): number[] {
+        return this.planeBmp.texture.getPixels(x, y, width, height);
     }
 
     public fire(): void {

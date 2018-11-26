@@ -1,11 +1,11 @@
 declare type PlaneInfo = {
-    planeName: string,
-    bulletType: string,
-    ultimateSkill: string,
-    normalSkill: string,
-    healthPoint: number,
-    attack: number,
-    fireDelay: number
+    planeName: string, //飞机名称
+    bulletType: string, //子弹类型
+    ultimateSkill: string, //终极技能
+    normalSkill: string, //自保技能
+    healthPoint: number, //hp
+    attack: number, //飞机攻击力
+    fireDelay: number //攻击间隔
 }
 
 namespace GameData {
@@ -51,7 +51,7 @@ namespace GameData {
                 bulletType: 'PitLordBullet',
                 ultimateSkill: '',
                 normalSkill: '',
-                healthPoint: 10,
+                healthPoint: 500,
                 attack: 10,
                 fireDelay: 120
             }
