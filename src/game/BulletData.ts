@@ -36,5 +36,16 @@ namespace GameData {
                 dict.push(bullet);
             }
         }
+
+        /** bullet*/
+        public static bulletData: Object = {
+            b1: {
+                attack: 10
+            },
+            b2: {
+                attack: 10
+            }
+        }
+
     }
 }

@@ -38,7 +38,6 @@ class GameController extends egret.DisplayObjectContainer {
         //背景
         this.bg = new BgMap();
         this.addChild(this.bg);
-
         this.startGame();
     }
 
@@ -58,8 +57,7 @@ class GameController extends egret.DisplayObjectContainer {
         this.player.y = this.stageH * 0.85;
         this.addChild(this.player);
         this.player.addEventListener('createBullet', this.createBulletHandler, this);
-        // this.player.fire();
-        console.log(this.player.getBoundsPixels(0, 0, 100, 100));
+        this.player.fire();
 
         this.addEventListener(egret.Event.ENTER_FRAME, this.gameViewUpdate, this);
 
@@ -126,11 +124,9 @@ class GameController extends egret.DisplayObjectContainer {
 
     /** 碰撞检测*/
     private gameHitTest(): void {
-        let i: number,
-            j: number;
-
+        let i: number, j: number;
         let bullet: Bullet;
-        let thePlayer: Plane;
+        let thePlane: Plane;
         let playerBulletCount: number = this.playerBullet.length;
         let enemyPlaneCount: number = this.enemies.length;
         let enemuBulletsCount: number = this.enemiesBullet.length;
@@ -139,7 +135,77 @@ class GameController extends egret.DisplayObjectContainer {
         let delBullets: Bullet[] = [];
         let delPlanes: Plane[] = [];
 
+        //player子弹
+        for (i = 0; i < playerBulletCount; i++) {
+            bullet = this.playerBullet[i];
+            for (j = 0; j < enemyPlaneCount; j++) {
+                thePlane = this.enemies[j];
+                if (GameUtils.pixelHitTest(bullet, thePlane, true)) {
+                    thePlane.healthPoint -= bullet.attack;
 
+                    if (delBullets.indexOf(bullet) == -1) {
+                        delBullets.push(bullet);
+                    }
+                    if (thePlane.healthPoint <= 0 && delPlanes.indexOf(thePlane) == -1) {
+                        delPlanes.push(thePlane);
+                    }
+                }
+            }
+        }
+
+        //enemy子弹
+        for (i = 0; i < enemuBulletsCount; i++) {
+            bullet = this.enemiesBullet[i];
+            if (GameUtils.pixelHitTest(bullet, this.player, true)) {
+                this.player.healthPoint -= bullet.attack;
+                if (delBullets.indexOf(bullet) == -1)
+                    delBullets.push(bullet);
+            }
+        }
+
+        //敌机的撞击
+        for (i = 0; i < enemyPlaneCount; i++) {
+            thePlane = this.enemies[i];
+            if (GameUtils.pixelHitTest(thePlane, this.player, true)) {
+                this.player.healthPoint -= 500;
+            }
+        }
+
+        if (this.player.healthPoint <= 0) {
+            this.gameOver();
+        } else {
+            while (delBullets.length > 0) {
+                bullet = delBullets.pop();
+                console.log(bullet.parent);
+                this.removeChild(bullet);
+                if (bullet.bulletName == 'b1') {
+                    this.playerBullet.splice(this.playerBullet.indexOf(bullet), 1)
+                } else {
+                    this.enemiesBullet.splice(this.enemiesBullet.indexOf(bullet), 1)
+                }
+                GameData.BulletData.reclaim(bullet);
+            }
+
+            while (delPlanes.length > 0) {
+                thePlane = delPlanes.pop();
+                thePlane.cease();
+                thePlane.removeEventListener("createBullet", this.createBulletHandler, this);
+                this.removeChild(thePlane);
+                this.enemies.splice(this.enemies.indexOf(thePlane), 1);
+                GameData.PlaneData.reclaim(thePlane);
+            }
+        }
+    }
+
+    private gameOver() {
+        this.bg.paused();
+
+        this.removeEventListener(egret.Event.ENTER_FRAME, this.gameViewUpdate, this);
+        this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchStartHandler, this);
+        this.removeEventListener(egret.TouchEvent.TOUCH_END, this.touchEndHandler, this);
+        this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchMoveHandler, this);
+        this.player.cease();
+        this.player.removeEventListener("createBullet", this.createBulletHandler, this);
     }
 
     /** 创建子弹*/
@@ -147,14 +213,15 @@ class GameController extends egret.DisplayObjectContainer {
         let bullet: Bullet;
 
         if (evt.target == this.player) {
-            let i: number = 0;
-            for (; i < 2; i++) {
-                bullet = GameData.BulletData.produce(this.player.bulletType);
-                bullet.x = i == 0 ? (this.player.x + 30) : (this.player.x + this.player.width - bullet.width - 30);
-                bullet.y = this.player.y - 30;
-                this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
-                this.playerBullet.push(bullet);
-            }
+            // let i: number = 0;
+            // for (; i < 2; i++) {
+            bullet = GameData.BulletData.produce(this.player.bulletType);
+            bullet.x = this.player.x + (this.player.width - bullet.width) / 2;
+            // i == 0 ? (this.player.x + 30) : (this.player.x + this.player.width - bullet.width - 30);
+            bullet.y = this.player.y - 30;
+            this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
+            this.playerBullet.push(bullet);
+            // }
         } else {
             let theEnemy = evt.target;
             bullet = GameData.BulletData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy].bulletType);
@@ -168,12 +235,13 @@ class GameController extends egret.DisplayObjectContainer {
     /** 创建敌机*/
     private createEnemyPlane(): void {
         let enemy: Plane = GameData.PlaneData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy]);
-        enemy.x = (this.stageW - enemy.width) * Math.random();
+        enemy.x = 400;
+        // (this.stageW - enemy.width) * Math.random();
         enemy.y = 0;
         // -enemy.height;
         this.addChild(enemy);
         enemy.addEventListener('createBullet', this.createBulletHandler, this);
-        enemy.fire();
+        // enemy.fire();
         this.addChildAt(enemy, this.numChildren - 1);
         this.enemies.push(enemy);
     }

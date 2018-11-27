@@ -30,12 +30,11 @@ class GameUtils {
      * 像素级碰撞
      */
     public static pixelHitTest(object: Pixel, target: Pixel, pixelFlag?: boolean): boolean {
-
         //获取两个对象宽高的一半
-        let objHalfW = object.width >> 1;
-        let objHalfH = object.height >> 1;
-        let targetHalfW = target.width >> 1;
-        let targetHalfH = target.height >> 1;
+        let objHalfW = object.width / 2;
+        let objHalfH = object.height / 2;
+        let targetHalfW = target.width / 2;
+        let targetHalfH = target.height / 2;
 
         //获取两个对象的中心点
         let objCenterX = object.x + objHalfW;
@@ -52,16 +51,29 @@ class GameUtils {
                 let intersect: rect = this.getIntersect(object, target);
 
                 //获取相交区域的像素
-                let boundPixel1 = object.getBoundsPixels(intersect.x, intersect.y, intersect.width, intersect.height);
-                let boundPixel2 = target.getBoundsPixels(intersect.x, intersect.y, intersect.width, intersect.height);
+                let bound01Pixels: number[] = object.getBoundsPixels(
+                    Math.abs(object.x - intersect.x),
+                    Math.abs(object.y - intersect.y),
+                    intersect.width,
+                    intersect.height
+                );
+                let bound02Pixels: number[] = target.getBoundsPixels(
+                    Math.abs(target.x - intersect.x),
+                    Math.abs(target.y - intersect.y),
+                    intersect.width,
+                    intersect.height
+                );
 
                 //遍历
-                let i: number = 0;
-                for (; i < boundPixel1.length; i += 4) {
-
+                for (let i = 3; i < bound01Pixels.length; i += 4) {
+                    if (bound01Pixels[i] >= 50 && bound02Pixels[i] >= 50) {
+                        return true
+                    }
                 }
+
+            } else {
+                return true
             }
-            return true
         }
 
         return false;

@@ -17,9 +17,6 @@ class Plane extends egret.DisplayObjectContainer implements Pixel {
     public normalSkill: string;
     public ultimateSkill: string;
 
-    /** 飞机攻击力*/
-    public attack: number;
-
     /** 飞机子弹类型*/
     public bulletType: string;
 
@@ -31,7 +28,6 @@ class Plane extends egret.DisplayObjectContainer implements Pixel {
         this.addChild(this.planeBmp);
 
         this.healthPoint = planeInfo.healthPoint;
-        this.attack = planeInfo.attack;
         this.normalSkill = planeInfo.normalSkill;
         this.ultimateSkill = planeInfo.ultimateSkill;
         this.bulletType = planeInfo.bulletType;

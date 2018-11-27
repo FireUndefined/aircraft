@@ -4,7 +4,6 @@ declare type PlaneInfo = {
     ultimateSkill: string, //终极技能
     normalSkill: string, //自保技能
     healthPoint: number, //hp
-    attack: number, //飞机攻击力
     fireDelay: number //攻击间隔
 }
 
@@ -51,8 +50,7 @@ namespace GameData {
                 bulletType: 'PitLordBullet',
                 ultimateSkill: '',
                 normalSkill: '',
-                healthPoint: 500,
-                attack: 10,
+                healthPoint: 1000,
                 fireDelay: 120
             }
         ];
@@ -63,8 +61,71 @@ namespace GameData {
                 bulletType: 'b2_png',
                 ultimateSkill: '',
                 normalSkill: '',
-                healthPoint: 10,
-                attack: 10,
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'silver_enemy_02_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'blue_enemy_01_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'gold_enemy_01_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'red_enemy_02_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'silver_enemy_03_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'blue_enemy_02_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'gold_enemy_02_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
+                fireDelay: 800
+            },
+            {
+                planeName: 'silver_enemy_01_png',
+                bulletType: 'b2_png',
+                ultimateSkill: '',
+                normalSkill: '',
+                healthPoint: 200,
                 fireDelay: 800
             }
         ];
