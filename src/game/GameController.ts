@@ -176,9 +176,8 @@ class GameController extends egret.DisplayObjectContainer {
         } else {
             while (delBullets.length > 0) {
                 bullet = delBullets.pop();
-                console.log(bullet.parent);
                 this.removeChild(bullet);
-                if (bullet.bulletName == 'b1') {
+                if (bullet.bulletName == 'PitLordBullet') {
                     this.playerBullet.splice(this.playerBullet.indexOf(bullet), 1)
                 } else {
                     this.enemiesBullet.splice(this.enemiesBullet.indexOf(bullet), 1)
@@ -206,6 +205,8 @@ class GameController extends egret.DisplayObjectContainer {
         this.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchMoveHandler, this);
         this.player.cease();
         this.player.removeEventListener("createBullet", this.createBulletHandler, this);
+
+        console.log('game over');
     }
 
     /** 创建子弹*/
@@ -213,15 +214,14 @@ class GameController extends egret.DisplayObjectContainer {
         let bullet: Bullet;
 
         if (evt.target == this.player) {
-            // let i: number = 0;
-            // for (; i < 2; i++) {
-            bullet = GameData.BulletData.produce(this.player.bulletType);
-            bullet.x = this.player.x + (this.player.width - bullet.width) / 2;
-            // i == 0 ? (this.player.x + 30) : (this.player.x + this.player.width - bullet.width - 30);
-            bullet.y = this.player.y - 30;
-            this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
-            this.playerBullet.push(bullet);
-            // }
+            let i: number = 0;
+            for (; i < 2; i++) {
+                bullet = GameData.BulletData.produce(this.player.bulletType);
+                bullet.x = i == 0 ? (this.player.x + 30) : (this.player.x + this.player.width - bullet.width - 30);
+                bullet.y = this.player.y - 30;
+                this.addChildAt(bullet, this.numChildren - 1 - this.enemies.length);
+                this.playerBullet.push(bullet);
+            }
         } else {
             let theEnemy = evt.target;
             bullet = GameData.BulletData.produce(GameData.PlaneData.enemies[GameData.PlaneData.currentEnemy].bulletType);
@@ -241,7 +241,7 @@ class GameController extends egret.DisplayObjectContainer {
         // -enemy.height;
         this.addChild(enemy);
         enemy.addEventListener('createBullet', this.createBulletHandler, this);
-        // enemy.fire();
+        enemy.fire();
         this.addChildAt(enemy, this.numChildren - 1);
         this.enemies.push(enemy);
     }

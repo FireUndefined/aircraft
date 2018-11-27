@@ -8,7 +8,7 @@ class Plane extends egret.DisplayObjectContainer implements Pixel {
     private fireTicker: egret.Timer;
 
     /** 生命值*/
-    public healthPoint: number = 10;
+    public healthPoint: number = 200;
 
     /** 飞机命名*/
     public planeName: string;

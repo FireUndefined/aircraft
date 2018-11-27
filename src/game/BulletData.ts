@@ -39,10 +39,10 @@ namespace GameData {
 
         /** bullet*/
         public static bulletData: Object = {
-            b1: {
+            PitLordBullet: {
                 attack: 10
             },
-            b2: {
+            b2_png: {
                 attack: 10
             }
         }

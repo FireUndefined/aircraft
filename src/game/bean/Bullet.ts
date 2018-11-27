@@ -6,7 +6,7 @@ class Bullet extends egret.Bitmap implements Pixel {
     public constructor(public bulletName: string) {
         super(RES.getRes(bulletName));
         this.bulletName = bulletName;
-        this.attack = GameData.BulletData.bulletData[bulletName];
+        this.attack = GameData.BulletData.bulletData[bulletName].attack;
     }
 
     public getBoundsPixels(x: number, y: number, width: number, height: number): number[] {
