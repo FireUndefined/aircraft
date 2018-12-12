@@ -1,5 +1,4 @@
-class BgMap extends egret.DisplayObjectContainer {
-
+class BgMap extends BaseScene {
     /** 位图容器*/
     private bgMap: egret.Bitmap;
 
@@ -12,11 +11,10 @@ class BgMap extends egret.DisplayObjectContainer {
 
     public constructor() {
         super();
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
-    private onAddToStage(evt: egret.Event): void {
-        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+    protected init(evt: egret.Event): void {
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.init, this);
         this.stageW = this.stage.stageWidth;
         this.stageH = this.stage.stageHeight;
 

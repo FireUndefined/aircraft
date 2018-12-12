@@ -9,17 +9,25 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
-		"bin-debug/game/interfaceStore.js",
-		"bin-debug/LoadingUI.js",
+		"bin-debug/game/bean/BaseScene.js",
+		"bin-debug/game/bean/HealthPoint.js",
 		"bin-debug/Platform.js",
 		"bin-debug/common/GameUtils.js",
-		"bin-debug/game/BulletData.js",
-		"bin-debug/game/GameController.js",
-		"bin-debug/Main.js",
-		"bin-debug/game/PlaneData.js",
+		"bin-debug/game/GameView.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/game/bean/BgMap.js",
 		"bin-debug/game/bean/Boss.js",
 		"bin-debug/game/bean/Bullet.js",
-		"bin-debug/game/bean/Plane.js"
+		"bin-debug/game/bean/Enemy.js",
+		"bin-debug/Main.js",
+		"bin-debug/game/bean/Player.js",
+		"bin-debug/game/controller/BossController.js",
+		"bin-debug/game/controller/EnemyController.js",
+		"bin-debug/game/controller/PlayerController.js",
+		"bin-debug/game/gameData/BossData.js",
+		"bin-debug/game/gameData/BulletData.js",
+		"bin-debug/game/gameData/PlaneData.js",
+		"bin-debug/game/store/interfaceStore.js",
+		"bin-debug/game/store/typeStore.js"
 	]
 }

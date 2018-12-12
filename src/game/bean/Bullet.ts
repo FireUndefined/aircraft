@@ -1,15 +1,32 @@
-class Bullet extends egret.Bitmap implements Pixel {
-
+class Bullet extends egret.Bitmap {
     /** 子弹攻击力*/
     public attack: number;
 
-    public constructor(public bulletName: string) {
-        super(RES.getRes(bulletName));
-        this.bulletName = bulletName;
-        this.attack = GameData.BulletData.bulletData[bulletName].attack;
-    }
+    public hitRect: hitRectType = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    };
 
-    public getBoundsPixels(x: number, y: number, width: number, height: number): number[] {
-        return this.texture.getPixels(x, y, width, height);
+    public constructor(
+        public bulletName: string,
+        x: number = 0,
+        y: number = 0,
+        public mx: number,
+        public my: number
+    ) {
+        super(RES.getRes(bulletName));
+
+        this.bulletName = bulletName;
+        this.x = x;
+        this.y = y;
+        this.mx = mx;
+        this.my = my;
+        this.attack = GameData.BulletData[bulletName].attack;
+
+        this.hitRect.x = this.hitRect.y = 0;
+        this.hitRect.width = this.width;
+        this.hitRect.height = this.height;
     }
 }

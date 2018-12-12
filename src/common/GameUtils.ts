@@ -1,7 +1,3 @@
-type rect = {
-    x: number, y: number, width: number, height: number
-}
-
 class GameUtils {
     /**
      * 获取舞台高度
@@ -18,6 +14,13 @@ class GameUtils {
     }
 
     /**
+     * 获取随机数
+     */
+    public static getRandomNum(min, max): number {
+        return parseInt(Math.random() * (max - min) + min);
+    }
+
+    /**
      * 根据name创建一个Bitmap对象
      */
     public static createBitmapByName(name: string): egret.Bitmap {
@@ -27,72 +30,95 @@ class GameUtils {
     }
 
     /**
-     * 像素级碰撞
+     * 矩形级碰撞
      */
-    public static pixelHitTest(object: Pixel, target: Pixel, pixelFlag?: boolean): boolean {
+    public static rectHitTest(target1: any, target2: any): boolean {
         //获取两个对象宽高的一半
-        let objHalfW = object.width / 2;
-        let objHalfH = object.height / 2;
-        let targetHalfW = target.width / 2;
-        let targetHalfH = target.height / 2;
+        let objHalfW = target1.hitRect.width / 2;
+        let objHalfH = target1.hitRect.height / 2;
+        let targetHalfW = target2.hitRect.width / 2;
+        let targetHalfH = target2.hitRect.height / 2;
 
         //获取两个对象的中心点
-        let objCenterX = object.x + objHalfW;
-        let objCenterY = object.y + objHalfH;
-        let targetCenterX = target.x + targetHalfW;
-        let targetCenterY = target.y + targetHalfH;
+        let objCenterX = target1.x + target1.hitRect.x + objHalfW;
+        let objCenterY = target1.y + target1.hitRect.y + objHalfH;
+        let targetCenterX = target2.x + target2.hitRect.x + targetHalfW;
+        let targetCenterY = target2.y + target2.hitRect.y + targetHalfH;
 
         //中心点距离小于各自宽高一半之和为矩形碰撞
-        if (Math.abs(objCenterX - targetCenterX) <= (objHalfW + targetHalfW) &&
-            Math.abs(objCenterY - targetCenterY) <= (objHalfH + targetHalfH)) {
-            //如果pixel = true
-            if (pixelFlag) {
-                //获取相交区域
-                let intersect: rect = this.getIntersect(object, target);
-
-                //获取相交区域的像素
-                let bound01Pixels: number[] = object.getBoundsPixels(
-                    Math.abs(object.x - intersect.x),
-                    Math.abs(object.y - intersect.y),
-                    intersect.width,
-                    intersect.height
-                );
-                let bound02Pixels: number[] = target.getBoundsPixels(
-                    Math.abs(target.x - intersect.x),
-                    Math.abs(target.y - intersect.y),
-                    intersect.width,
-                    intersect.height
-                );
-
-                //遍历
-                for (let i = 3; i < bound01Pixels.length; i += 4) {
-                    if (bound01Pixels[i] >= 50 && bound02Pixels[i] >= 50) {
-                        return true
-                    }
-                }
-
-            } else {
-                return true
-            }
-        }
-
-        return false;
+        return (Math.abs(objCenterX - targetCenterX) <= (objHalfW + targetHalfW) && Math.abs(objCenterY - targetCenterY) <= (objHalfH + targetHalfH));
     }
 
-    private static getIntersect(bound1: Pixel, bound2: Pixel): rect {
+    /** 对象池*/
+    public static cacheDict: Object = {};
 
-        let intersect: rect = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0
-        };
+    /** 生成*/
+    public static produceBullet(bulletName: string, x: number, y: number, mx: number, my: number): Bullet {
+        if (GameUtils.cacheDict[bulletName] == null) {
+            GameUtils.cacheDict[bulletName] = [];
+        }
 
-        intersect.x = Math.max(bound1.x, bound2.x);
-        intersect.y = Math.max(bound1.y, bound2.y);
-        intersect.width = Math.min((bound1.x + bound1.width) - intersect.x, (bound2.x + bound2.width) - intersect.x);
-        intersect.height = Math.min((bound1.y + bound1.height) - intersect.y, (bound2.y + bound2.height) - intersect.y);
+        let dict: Bullet[] = GameUtils.cacheDict[bulletName];
+        let bullet: Bullet;
 
-        return intersect;
+        if (dict.length > 0) {
+            bullet = dict.pop();
+            bullet.x = x;
+            bullet.y = y;
+            bullet.mx = mx;
+            bullet.my = my;
+        } else {
+            bullet = new Bullet(bulletName, x, y, mx, my);
+        }
+
+        return bullet;
+    }
+
+    public static produceEnemy(enemyName: string, x: number = 0, y: number = 0): Enemy {
+
+        if (GameUtils.cacheDict[enemyName] == null) {
+            GameUtils.cacheDict[enemyName] = [];
+        }
+
+        let dict: Enemy[] = GameUtils.cacheDict[enemyName];
+        let enemy: Enemy;
+
+        if (dict.length > 0) {
+            enemy = dict.pop();
+            enemy.x = x;
+            enemy.y = y;
+        } else {
+            enemy = new Enemy(enemyName);
+        }
+        return enemy
+    }
+
+    /** 回收*/
+    public static reclaimBullet(bullet: Bullet): void {
+        let bulletName: string = bullet.bulletName;
+
+        if (GameUtils.cacheDict[bulletName] == null) {
+            GameUtils.cacheDict[bulletName] = [];
+        }
+
+        let dict: Bullet[] = GameUtils.cacheDict[bulletName];
+
+        if (dict.indexOf(bullet) == -1) {
+            dict.push(bullet);
+        }
+    }
+
+    public static reclaimEnemy(enemy: Enemy): void {
+        let enemyName: string = enemy.enemyName;
+
+        if (GameUtils.cacheDict[enemyName] === null) {
+            GameUtils.cacheDict[enemyName] = [];
+        }
+
+        let dict: Enemy[] = GameUtils.cacheDict[enemyName];
+
+        if (dict.indexOf(enemy) == -1) {
+            dict.push(enemy)
+        }
     }
 }
