@@ -43,6 +43,11 @@ class HealthPoint extends egret.DisplayObjectContainer implements IHealthPoint {
         this.addChild(this.previous);
     }
 
+    public reset(): void {
+        this.dynamicHP = this.totalHP;
+        this.previous.graphics.clear();
+    }
+
     public reduce(num: number): void {
         if (this.dynamicHP <= 0) return;
 

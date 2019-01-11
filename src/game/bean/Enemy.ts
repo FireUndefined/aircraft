@@ -8,6 +8,7 @@ class Enemy extends egret.DisplayObjectContainer {
 
     /** 血量总数*/
     public totalHp: number;
+    private originHp: number;
 
     /** 血量容器*/
     private hpBitmap: HealthPoint;
@@ -27,7 +28,9 @@ class Enemy extends egret.DisplayObjectContainer {
         this.enemyBitmap = GameUtils.createBitmapByName(enemyName);
         this.enemyBitmap.y = 10;
         this.addChild(this.enemyBitmap);
-        this.totalHp = data.healthPoint;
+
+        this.originHp = this.totalHp = data.healthPoint;
+
         this.hpBitmap = new HealthPoint(this.totalHp, 172, 4);
         this.hpBitmap.x = (this.enemyBitmap.width - 172) / 2;
         this.addChild(this.hpBitmap);
@@ -46,7 +49,13 @@ class Enemy extends egret.DisplayObjectContainer {
     }
 
     public reduceHP(num: number): void {
+        this.totalHp -= num;
         this.hpBitmap.reduce(num);
+    }
+
+    public reset(): void {
+        this.totalHp = this.originHp;
+        this.hpBitmap.reset();
     }
 
     private createBullet(evt: egret.TimerEvent): void {

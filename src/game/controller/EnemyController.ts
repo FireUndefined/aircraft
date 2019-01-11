@@ -10,7 +10,10 @@ class EnemyController extends BaseScene {
     private enemyCreator: egret.Timer;
 
     /** 是否继续产生敌机*/
-    private continueCreate: boolean = false;
+    public continueCreate: boolean = false;
+
+    /** 剩余敌机次数*/
+    private remainBatch: number;
 
     /** 颜色*/
     private colorArray = [
@@ -25,8 +28,10 @@ class EnemyController extends BaseScene {
         'silver_enemy_01_png'
     ];
 
-    public constructor() {
+    public constructor(num?: number) {
         super();
+
+        this.remainBatch = num || 0;
     }
 
     protected init() {
@@ -70,26 +75,44 @@ class EnemyController extends BaseScene {
             egret.Tween
                 .get(enemy)
                 .to({
-                    y: self.stage.stageHeight + enemy.height
+                    y: (self.stage.stageHeight + enemy.height)
                 }, 3000)
                 .call(function () {
                     GameUtils.reclaimEnemy(enemy);
-                    self.removeChild(enemy);
+
+                    if (self.contains(enemy)) {
+                        self.removeChild(enemy);
+                        enemy.reset();
+                    }
 
                     let idx: number;
                     if ((idx = self.enemies.indexOf(enemy)) !== -1) {
                         self.enemies.splice(idx, 1);
                     }
-                    if (self.enemies.length <= 0) {
+                    if (self.enemies.length <= 0 && self.continueCreate) {
                         //当敌机数组为空时，判断是否需要继续出现敌机
-                        if (self.continueCreate) {
-                            self.createEnemy();
-                        } else {
-
+                        self.remainBatch--;
+                        if (self.remainBatch <= 0) {
+                            self.continueCreate = false;
+                            return;
                         }
+                        self.createEnemy();
                     }
                 });
         }
+    }
+
+    public getRemainBatch(): number {
+        return this.remainBatch;
+    }
+
+    public setRemainBatch(num: number): void {
+        this.remainBatch = num;
+    }
+
+    public clearEnemy(enemy: Enemy): void {
+        enemy.removeEventListener('createBullet', this.createBullet, this);
+        enemy.cease();
     }
 
     private createBullet(evt: egret.Event): void {

@@ -25,9 +25,9 @@ class PlayerController extends BaseScene {
         this.player.x = (this.stage.stageWidth - this.player.width) / 2;
 
         this.totalHP = this.player.totalHP;
-        this.hp = new HealthPoint(this.totalHP);
+        this.hp = new HealthPoint(this.totalHP, 400, 6);
         this.hp.x = (this.stage.stageWidth - this.hp.width) / 2;
-        this.hp.y = 1300;
+        this.hp.y = 1310;
         this.addChild(this.hp);
     }
 
