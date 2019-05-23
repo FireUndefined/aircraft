@@ -18,7 +18,12 @@ class GameView extends BaseScene {
     private bossIsLaunch: boolean = false;
     private bossIsChangeFrom: boolean = false;
 
+    /** 加载音频**/
+    private sound: egret.Sound = new egret.Sound();
+
     protected init(): void {
+        let self = this;
+
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.init, this);
 
         this._lastTime = egret.getTimer();
@@ -42,6 +47,20 @@ class GameView extends BaseScene {
         this.addChild(this.playerController);
 
         this.startGame();
+
+        this.sound.addEventListener(egret.Event.COMPLETE, function loadOver(event: egret.Event) {
+
+            console.log("loaded success!");
+        }, this);
+        this.sound.addEventListener(egret.IOErrorEvent.IO_ERROR, function loadError(event: egret.IOErrorEvent) {
+            console.log("loaded error!");
+        }, this);
+        this.sound.load("resource/assets/music/the_golden_armada.mp3");
+
+        /*** 暂时加一个玩玩***/
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            self.sound.play();
+        }, this);
     }
 
     private startGame(): void {

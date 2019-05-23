@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "PitLord,PitLord_name,game_bg_jpg,red_enemy_01_png,silver_enemy_02_png,blue_enemy_01_png,gold_enemy_01_png,red_enemy_02_png,silver_enemy_03_png,blue_enemy_02_png,gold_enemy_02_png,silver_enemy_01_png,PitLordBullet,b2_png,creature_form_02_png,creature_form_01_png,star_png,dot_png",
+			"keys": "PitLord,PitLord_name,game_bg_jpg,red_enemy_01_png,silver_enemy_02_png,blue_enemy_01_png,gold_enemy_01_png,red_enemy_02_png,silver_enemy_03_png,blue_enemy_02_png,gold_enemy_02_png,silver_enemy_01_png,PitLordBullet,b2_png,creature_form_02_png,creature_form_01_png,star_png,dot_png,the_golden_armada_mp3",
 			"name": "preload"
 		}
 	],
@@ -95,6 +95,11 @@
 			"url": "assets/img/dot.png",
 			"type": "image",
 			"name": "dot_png"
+		},
+		{
+			"name": "the_golden_armada_mp3",
+			"type": "sound",
+			"url": "assets/music/the_golden_armada.mp3"
 		}
 	]
 }
